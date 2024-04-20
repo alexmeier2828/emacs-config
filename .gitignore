@@ -4,3 +4,10 @@
 *~
 /powerline/
 /transient/
+/.cache/
+/.lsp-session-v1
+/.org-id-locations
+/data/
+/kkcrc
+/org-roam.db
+/settings.el

@@ -1,0 +1,15 @@
+ ▄▀▀█▄▄▄▄  ▄▀▀▄ ▄▀▄  ▄▀▀█▄   ▄▀▄▄▄▄   ▄▀▀▀▀▄ 
+▐  ▄▀   ▐ █  █ ▀  █ ▐ ▄▀ ▀▄ █ █    ▌ █ █   ▐ 
+  █▄▄▄▄▄  ▐  █    █   █▄▄▄█ ▐ █         ▀▄   
+  █    ▌    █    █   ▄▀   █   █      ▀▄   █  
+ ▄▀▄▄▄▄   ▄▀   ▄▀   █   ▄▀   ▄▀▄▄▄▄▀  █▀▀▀   
+ █    ▐   █    █    ▐   ▐   █     ▐   ▐      
+ ▐        ▐    ▐            ▐
+
+* Important links
+
+| Link         | Description                                                            |
+|--------------+------------------------------------------------------------------------|
+| [[~/.emacs.d/settings.org][Settings.org]] | Main configuration file                                                |
+| [[~/.emacs.d/init.el][init.el]]      | This file calls into the above file, so probably don't ever touch this |
+
