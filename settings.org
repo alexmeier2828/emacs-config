@@ -38,7 +38,12 @@
 ** Global
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-h") ctl-x-map)
+  (global-set-key (kbd "C-c s") 'eshell)
+
 #+END_SRC
+
+#+RESULTS:
+: eshell
 
 * Theme
 #+BEGIN_SRC emacs-lisp
@@ -52,8 +57,9 @@
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook
-	    (lambda()
-	      (electric-pair-mode t)))
+            (lambda()
+              (electric-pair-mode t)
+              ))
 #+END_SRC
 
 * General
