@@ -3,6 +3,7 @@
   ;; load package manager, add the Melpa package registry
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
   (package-initialize)
 
   ;; bootstrap use-package
@@ -23,13 +24,28 @@
     (setq evil-want-C-u-scroll t)
     :config ;; tweak evil after loading it
     (evil-mode)
-
+    (define-prefix-command 'my-leader-map)
+    (keymap-set evil-motion-state-map "SPC" 'my-leader-map)
+    (keymap-set evil-normal-state-map "SPC" 'my-leader-map)
     ;; example how to map a command in normal mode (called 'normal state' in evil)
-    (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
+    (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
+    ;; insert mode
+    ;; leader maps
+    (evil-define-key nil my-leader-map
+      "." 'execute-extended-command
+      "ff" 'find-file))
 
-  
+  (use-package vterm
+    :ensure t
+    :init
+    :config
+    (global-set-key (kbd "C-c t") 'vterm))
 
 #+END_SRC
+
+#+RESULTS:
+: t
+
 * Startup
 #+begin_src emacs-lisp
   (setq initial-buffer-choice "~/.emacs.d/start-page.org")
@@ -39,6 +55,8 @@
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-h") ctl-x-map)
   (global-set-key (kbd "C-c s") 'eshell)
+  (global-set-key (kbd "C-x p f") 'project-find-file)
+  (global-set-key (kbd "C-c r") 'project-find-regexp)
 
 #+END_SRC
 
@@ -85,15 +103,20 @@
     (corfu-auto t)
     (corfu-auto-prefix 2)
     (corfu-auto-delay 0.0)
-    (corfu-echo-documentation 0.25)
-    :init
-    (global-corfu-mode))
+    (corfu-echo-delay 0.25)
+    :bind (:map corfu-map
+                ("C-c i" . corfu-info-documentation))
+    :hook ((prog-mode . corfu-mode)
+           (eshell-mode . corfu-mode)))
+  (use-package corfu-echo)
+
 
   ;; orderless completion style 
   (use-package orderless
     :ensure t
     :config
     (setq completion-styles '(orderless)))
+
 
   ;; general completion settings 
   (setq completion-cycle-threshold 3)
@@ -128,11 +151,43 @@
 #+end_src
 * Org-mode
 #+begin_src emacs-lisp
-  (setq-default org-startup-indented t
+  (use-package org
+    :init
+    (setq-default org-startup-indented t
                 org-startup-folded t 
                 org-pretty-entities t
                 org-use-sub-superscripts "{}"
                 org-hide-emphasis-markers t
                 org-startup-with-inline-images t
                 org-image-actual-width '(300))
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+             "* TODO  %? %^G\n %i\n %a \n %T")
+            ("n" "Note" entry (file+datetree "~/org/notes.org")
+             "* %?\nEntered on %U\n %i\n %a")))
+    :config
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (global-set-key (kbd "C-c a") 'org-agenda))
+
+#+end_src
+
+#+RESULTS:
+: t
+
+** anki
+#+begin_src emacs-lisp 
+  (use-package anki-editor
+    :ensure  t
+    :after org-noter
+    :config
+    ; I like making decks
+    (setq anki-editor-create-decks 't))
+#+end_src
+* Programming Specific
+** Rust
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t)
+  (use-package rustic
+    :ensure t)
 #+end_src
