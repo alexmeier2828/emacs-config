@@ -10,7 +10,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/org/todo.org" "/Users/alexmeier/org/notes.org"))
  '(package-selected-packages
-   '(anki-editor vterm rustic lsp-mode doom-modeline magit which-key marginalia orderless corfu gruvbox-theme evil)))
+   '(copilot editorconfig quelpa-use-package quelpa straight strait anki-editor vterm rustic lsp-mode doom-modeline magit which-key marginalia orderless corfu gruvbox-theme evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

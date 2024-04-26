@@ -12,15 +12,21 @@
 | [[~/.emacs.d/settings.org][Settings.org]] | Main configuration file                                                |
 | [[~/.emacs.d/init.el][init.el]]      | This file calls into the above file, so probably don't ever touch this |
 
-#+BEGIN: clocktable :scope agenda :maxlevel 2 :tags t :link t :block week
-#+CAPTION: Clock summary at [2024-04-21 Sun 16:28], for week 2024-W16.
-| File      | Tags  | Headline                     | Time |      |
-|-----------+-------+------------------------------+------+------|
-|           | ALL   | *Total time*                   | *0:04* |      |
-|-----------+-------+------------------------------+------+------|
-| todo.org  |       | *File time*                    | *0:04* |      |
-|           |       | [[file:/Users/alexmeier/org/todo.org::*Tasks][Tasks]]                        | 0:04 |      |
-|           | emacs | \_  [[file:/Users/alexmeier/org/todo.org::*add more config nonsense][add more config nonsense]] |      | 0:04 |
-|-----------+-------+------------------------------+------+------|
-| notes.org |       | *File time*                    | *0:00* |      |
+#+BEGIN: clocktable :scope agenda :maxlevel 3 :tags t :link t :block week
+#+CAPTION: Clock summary at [2024-04-26 Fri 11:01], for week 2024-W17.
+| File      | Tags  | Headline                                | Time  |       |      |
+|-----------+-------+-----------------------------------------+-------+-------+------|
+|           | ALL   | *Total time*                              | *10:56* |       |      |
+|-----------+-------+-----------------------------------------+-------+-------+------|
+| todo.org  |       | *File time*                               | *10:56* |       |      |
+|           |       | [[file:/Users/alexmeier/org/todo.org::*Tasks][Tasks]]                                   | 10:56 |       |      |
+|           | emacs | \_  [[file:/Users/alexmeier/org/todo.org::*Why doesn't C-x remap work corectly][Why doesn't C-x remap work corectly]] |       |  0:01 |      |
+|           | 日本語 | \_  [[file:/Users/alexmeier/org/todo.org::*Japanese][Japanese]]                            |       | 10:21 |      |
+|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Reading][Reading]]                           |       |       | 3:16 |
+|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Listening][Listening]]                         |       |       | 2:16 |
+|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Vocab][Vocab]]                             |       |       | 3:18 |
+|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Textbook][Textbook]]                          |       |       | 1:31 |
+|           | gtk   | \_  [[file:/Users/alexmeier/org/todo.org::*Set up oled displays on keyboard][Set up oled displays on keyboard]]    |       |  0:34 |      |
+|-----------+-------+-----------------------------------------+-------+-------+------|
+| notes.org |       | *File time*                               | *0:00*  |       |      |
 #+END:

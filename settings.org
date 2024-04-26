@@ -53,11 +53,11 @@
 * Key Maps
 ** Global
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-h") ctl-x-map)
   (global-set-key (kbd "C-c s") 'eshell)
   (global-set-key (kbd "C-x p f") 'project-find-file)
   (global-set-key (kbd "C-c r") 'project-find-regexp)
-
+  (keyboard-translate ?\C-h ?\C-x)
+  (keyboard-translate ?\C-x ?\C-h)
 #+END_SRC
 
 #+RESULTS:
@@ -184,7 +184,26 @@
     (setq anki-editor-create-decks 't))
 #+end_src
 * Programming Specific
+** Github copilot
+#+begin_src emacs-lisp
+    (use-package quelpa
+      :ensure t)
+    (use-package quelpa-use-package
+      :ensure t)
+    (use-package copilot
+      :quelpa (copilot :fetcher github
+                       :repo "copilot-emacs/copilot.el"
+                       :branch "main"
+                       :files ("*.el"))
+      :bind (:map copilot-mode-map
+                   ("C-c c a" . copilot-accept-completion)))
+    ;; you can utilize :map :hook and :config to customize copilot
+    ;; you can utilize :map :hook and :config to customize copilot
+#+end_src
 ** Rust
+:LOGBOOK:
+CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
+:END:
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :ensure t)
