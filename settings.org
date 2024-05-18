@@ -69,6 +69,9 @@
     :ensure t
     :config
     (load-theme 'gruvbox t))
+
+  (use-package vscode-dark-plus-theme
+    :ensure t)
 #+END_SRC
 
 * Hooks
@@ -159,9 +162,12 @@
                 org-use-sub-superscripts "{}"
                 org-hide-emphasis-markers t
                 org-startup-with-inline-images t
-                org-image-actual-width '(300))
+                org-image-actual-width '(300)
+                org-enforce-todo-dependencies t
+                org-agenda-todo-list-sublevels t
+                org-startup-with-inline-images t)
     (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+          '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
              "* TODO  %? %^G\n %i\n %a \n %T")
             ("n" "Note" entry (file+datetree "~/org/notes.org")
              "* %?\nEntered on %U\n %i\n %a")))
@@ -170,6 +176,14 @@
     (global-set-key (kbd "C-c a") 'org-agenda)
     (add-hook 'org-mode-hook #'visual-line-mode))
 
+
+  ;; download images
+  (use-package org-download
+    :ensure t
+    :init
+    (setq-default org-download-image-dir "~/org/pictures")
+    :config
+    (add-hook 'dired-mode-hook #'org-download-enable))
 #+end_src
 
 #+RESULTS:
@@ -211,3 +225,20 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
   (use-package rustic
     :ensure t)
 #+end_src
+
+* Action Alist
+** display-buffer-alist
+*** Eshell 
+#+begin_src emacs-lisp
+  (add-to-list 'display-buffer-alist
+               '("\\*eshell\\*"
+                 (display-buffer-reuse-window)
+                 (display-buffer-below-selected)
+                 (window-height . 12)
+                 ))
+
+#+end_src
+
+#+RESULTS:
+| \*eshell\* | (display-buffer-reuse-window)                  | (display-buffer-below-selected) | (window-height . 12)            |                      |
+| \*eshell\* | (setq switch-to-buffer-obey-display-actions t) | (display-buffer-reuse-window)   | (display-buffer-below-selected) | (window-height . 12) |
