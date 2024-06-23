@@ -13,7 +13,7 @@
  '(org-agenda-files
    '("/Users/alexmeier/org/notes.org" "/Users/alexmeier/org/calendar-beorg.org" "/Users/alexmeier/org/inbox.org" "/Users/alexmeier/org/todo.org"))
  '(package-selected-packages
-   '(org-download vscode-dark-plus-theme copilot editorconfig quelpa-use-package quelpa straight strait anki-editor vterm rustic lsp-mode doom-modeline magit which-key marginalia orderless corfu gruvbox-theme evil)))
+   '(org-download vscode-dark-plus-theme copilot editorconfig quelpa-use-package quelpa straight strait anki-editor vterm rustic doom-modeline magit which-key marginalia orderless corfu gruvbox-theme evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -104,9 +104,9 @@
     :ensure t
     :custom
     (corfu-auto t)
-    (corfu-auto-prefix 2)
-    (corfu-auto-delay 0.0)
-    (corfu-echo-delay 0.25)
+    (corfu-auto-prefix 5)
+    (corfu-auto-delay 0.25)
+    (corfu-echo-delay 1)
     :bind (:map corfu-map
                 ("C-c i" . corfu-info-documentation))
     :hook ((prog-mode . corfu-mode)
@@ -140,6 +140,9 @@
     :init
     (which-key-mode))
 #+end_src
+
+#+RESULTS:
+
 * magit
 #+begin_src emacs-lisp
   (use-package magit
@@ -215,16 +218,30 @@
     ;; you can utilize :map :hook and :config to customize copilot
     ;; you can utilize :map :hook and :config to customize copilot
 #+end_src
+
+#+RESULTS:
+
+** LSP
+#+begin_src emacs-lisp
+  (use-package eglot
+    :ensure t
+    :bind (:map eglot-mode-map
+                  ("C-c i" . eglot-find-implementation)))
+#+end_src
+
+#+RESULTS:
+: eglot-find-implementation
+
 ** Rust
 :LOGBOOK:
 CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 :END:
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-    :ensure t)
   (use-package rustic
     :ensure t)
 #+end_src
+
+#+RESULTS:
 
 * Action Alist
 ** display-buffer-alist

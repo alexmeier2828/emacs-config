@@ -1,4 +1,4 @@
- ▄▀▀█▄▄▄▄  ▄▀▀▄ ▄▀▄  ▄▀▀█▄   ▄▀▄▄▄▄   ▄▀▀▀▀▄ 
+vc▀▀█▄▄▄▄  ▄▀▀▄ ▄▀▄  ▄▀▀█▄   ▄▀▄▄▄▄   ▄▀▀▀▀▄ 
 ▐  ▄▀   ▐ █  █ ▀  █ ▐ ▄▀ ▀▄ █ █    ▌ █ █   ▐ 
   █▄▄▄▄▄  ▐  █    █   █▄▄▄█ ▐ █         ▀▄   
   █    ▌    █    █   ▄▀   █   █      ▀▄   █  
@@ -11,22 +11,64 @@
 |--------------+------------------------------------------------------------------------|
 | [[~/.emacs.d/settings.org][Settings.org]] | Main configuration file                                                |
 | [[~/.emacs.d/init.el][init.el]]      | This file calls into the above file, so probably don't ever touch this |
+| [[file:~/org/movies_to_watch.org][Movie List]]   | List of movies to watch                                                |
 
 #+BEGIN: clocktable :scope agenda :maxlevel 3 :tags t :link t :block week
-#+CAPTION: Clock summary at [2024-04-26 Fri 11:01], for week 2024-W17.
-| File      | Tags  | Headline                                | Time  |       |      |
-|-----------+-------+-----------------------------------------+-------+-------+------|
-|           | ALL   | *Total time*                              | *10:56* |       |      |
-|-----------+-------+-----------------------------------------+-------+-------+------|
-| todo.org  |       | *File time*                               | *10:56* |       |      |
-|           |       | [[file:/Users/alexmeier/org/todo.org::*Tasks][Tasks]]                                   | 10:56 |       |      |
-|           | emacs | \_  [[file:/Users/alexmeier/org/todo.org::*Why doesn't C-x remap work corectly][Why doesn't C-x remap work corectly]] |       |  0:01 |      |
-|           | 日本語 | \_  [[file:/Users/alexmeier/org/todo.org::*Japanese][Japanese]]                            |       | 10:21 |      |
-|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Reading][Reading]]                           |       |       | 3:16 |
-|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Listening][Listening]]                         |       |       | 2:16 |
-|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Vocab][Vocab]]                             |       |       | 3:18 |
-|           | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Textbook][Textbook]]                          |       |       | 1:31 |
-|           | gtk   | \_  [[file:/Users/alexmeier/org/todo.org::*Set up oled displays on keyboard][Set up oled displays on keyboard]]    |       |  0:34 |      |
-|-----------+-------+-----------------------------------------+-------+-------+------|
-| notes.org |       | *File time*                               | *0:00*  |       |      |
+#+CAPTION: Clock summary at [2024-06-12 Wed 08:41], for week 2024-W24.
+| File               | Tags  | Headline        | Time |      |      |
+|--------------------+-------+-----------------+------+------+------|
+|                    | ALL   | *Total time*      | *5:06* |      |      |
+|--------------------+-------+-----------------+------+------+------|
+| notes.org          |       | *File time*       | *0:00* |      |      |
+|--------------------+-------+-----------------+------+------+------|
+| calendar-beorg.org |       | *File time*       | *0:00* |      |      |
+|--------------------+-------+-----------------+------+------+------|
+| inbox.org          |       | *File time*       | *0:00* |      |      |
+|--------------------+-------+-----------------+------+------+------|
+| todo.org           |       | *File time*       | *5:06* |      |      |
+|                    |       | [[file:/Users/alexmeier/org/todo.org::*Tasks][Tasks]]           | 5:06 |      |      |
+|                    | 日本語 | \_  [[file:/Users/alexmeier/org/todo.org::*Japanese][Japanese]]    |      | 5:06 |      |
+|                    | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Listening][Listening]] |      |      | 2:11 |
+|                    | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Vocab][Vocab]]     |      |      | 1:39 |
+|                    | 日本語 | \_    [[file:/Users/alexmeier/org/todo.org::*Textbook][Textbook]]  |      |      | 1:16 |
+#+TBLFM: 
 #+END:
+
+
+#+BEGIN: clocktable :scope agenda :maxlevel 3 :tags t :link t 
+#+CAPTION: Clock summary at [2024-06-10 Mon 06:26]
+| File               | Tags            | Headline                                      | Time     |          |       |
+|--------------------+-----------------+-----------------------------------------------+----------+----------+-------|
+|                    | ALL             | *Total time*                                    | *2d 11:19* |          |       |
+|--------------------+-----------------+-----------------------------------------------+----------+----------+-------|
+| notes.org          |                 | *File time*                                     | *0:00*     |          |       |
+|--------------------+-----------------+-----------------------------------------------+----------+----------+-------|
+| calendar-beorg.org |                 | *File time*                                     | *0:00*     |          |       |
+|--------------------+-----------------+-----------------------------------------------+----------+----------+-------|
+| inbox.org          |                 | *File time*                                     | *13:20*    |          |       |
+|                    |                 | [[file:/Users/alexmeier/org/inbox.org::*Dishes][Dishes]]                                        | 0:36     |          |       |
+|                    | Finance         | [[file:/Users/alexmeier/org/inbox.org::*Sell Symbotic Stocks][Sell Symbotic Stocks]]                          | 0:36     |          |       |
+|                    |                 | [[file:/Users/alexmeier/org/inbox.org::*Get car inspected][Get car inspected]]                             | 0:09     |          |       |
+|                    |                 | [[file:/Users/alexmeier/org/inbox.org::*Tasks][Tasks]]                                         | 11:06    |          |       |
+|                    | Finance         | \_  [[file:/Users/alexmeier/org/inbox.org::*Purchase stock][Purchase stock]]                            |          |     0:28 |       |
+|                    | Finance         | \_    [[file:/Users/alexmeier/org/inbox.org::*Do some research on where to put the money][Do some research on where to put the...]] |          |          |  0:28 |
+|                    | Typing          | \_  [[file:/Users/alexmeier/org/inbox.org::*qwerty typing practice][qwerty typing practice]]                    |          |     7:43 |       |
+|                    | Typing          | \_  [[file:/Users/alexmeier/org/inbox.org::*dvorak typing retention][dvorak typing retention]]                   |          |     2:42 |       |
+|                    | Finance         | \_  [[file:/Users/alexmeier/org/inbox.org::*Monthly finance checkin][Monthly finance checkin]]                   |          |     0:13 |       |
+|                    | wedding         | [[file:/Users/alexmeier/org/inbox.org::*Download all the wedding photos][Download all the wedding photos]]               | 0:49     |          |       |
+|                    | Health          | [[file:/Users/alexmeier/org/inbox.org::*Order dip bars][Order dip bars]]                                | 0:04     |          |       |
+|--------------------+-----------------+-----------------------------------------------+----------+----------+-------|
+| todo.org           |                 | *File time*                                     | *1d 21:59* |          |       |
+|                    |                 | [[file:/Users/alexmeier/org/todo.org::*Tasks][Tasks]]                                         | 1d 21:59 |          |       |
+|                    | emacs           | \_  [[file:/Users/alexmeier/org/todo.org::*add more config nonsense][add more config nonsense]]                  |          |     0:36 |       |
+|                    | rust, RustKanji | \_  [[file:/Users/alexmeier/org/todo.org::*Finish setting up wave function collapse][Finish setting up wave function collapse]]  |          |     4:07 |       |
+|                    | emacs           | \_  [[file:/Users/alexmeier/org/todo.org::*Why doesn't C-x remap work corectly][Why doesn't C-x remap work corectly]]       |          |     0:20 |       |
+|                    | 日本語           | \_  [[file:/Users/alexmeier/org/todo.org::*Japanese][Japanese]]                                  |          | 1d 16:09 |       |
+|                    | 日本語           | \_    [[file:/Users/alexmeier/org/todo.org::*Reading][Reading]]                                 |          |          | 10:19 |
+|                    | 日本語           | \_    [[file:/Users/alexmeier/org/todo.org::*Listening][Listening]]                               |          |          |  4:07 |
+|                    | 日本語           | \_    [[file:/Users/alexmeier/org/todo.org::*Vocab][Vocab]]                                   |          |          | 19:14 |
+|                    | 日本語           | \_    [[file:/Users/alexmeier/org/todo.org::*Textbook][Textbook]]                                |          |          |  6:00 |
+|                    | 日本語           | \_    [[file:/Users/alexmeier/org/todo.org::*Writing][Writing]]                                 |          |          |  0:29 |
+|                    | gtk             | \_  [[file:/Users/alexmeier/org/todo.org::*Set up oled displays on keyboard][Set up oled displays on keyboard]]          |          |     0:47 |       |
+#+END:
+ 
