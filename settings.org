@@ -243,6 +243,11 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 
 #+RESULTS:
 
+** Zig
+#+begin_src emacs-lisp
+  (use-package zig-mode
+    :ensure t)
+#+end_src 
 * Action Alist
 ** display-buffer-alist
 *** Eshell 
