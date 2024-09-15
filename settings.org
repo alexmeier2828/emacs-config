@@ -99,46 +99,58 @@
 
 * Completion
 #+begin_src emacs-lisp
-  ;; corfu
+    ;;corfu
+  (fset #'jsonrpc--log-event #'ignore)
   (use-package corfu
-    :ensure t
-    :custom
-    (corfu-auto t)
-    (corfu-auto-prefix 5)
-    (corfu-auto-delay 0.25)
-    (corfu-echo-delay 1)
-    :bind (:map corfu-map
-                ("C-c i" . corfu-info-documentation))
-    :hook ((prog-mode . corfu-mode)
-           (eshell-mode . corfu-mode)))
-  (use-package corfu-echo)
+      :ensure t
+      :custom
+      (corfu-auto t)
+      (corfu-auto-prefix 5)
+      (corfu-auto-delay 0.20)
+      (corfu-popupinfo-delay 0.2)
+      :bind (:map corfu-map
+                  ("C-c i" . corfu-info-documentation))
+      :hook ((prog-mode . corfu-mode)
+             (eshell-mode . corfu-mode))
+      :init
+      (corfu-popupinfo-mode))
+
+  (use-package corfu-terminal
+    :ensure t)
+
+  (unless (display-graphic-p)
+    (corfu-terminal-mode +1))
 
 
-  ;; orderless completion style 
-  (use-package orderless
-    :ensure t
-    :config
-    (setq completion-styles '(orderless)))
+    ;;(use-package company
+     ;; :ensure t)
 
 
-  ;; general completion settings 
-  (setq completion-cycle-threshold 3)
-  (setq completion-show-help t)
+    ;; orderless completion style 
+    (use-package orderless
+      :ensure t
+      :config
+      (setq completion-styles '(orderless)))
 
 
-  ;; anotations in minibuffer
-  (use-package marginalia
-    :ensure t
-    :init
-    (marginalia-mode))
+    ;; general completion settings 
+    (setq completion-cycle-threshold 3)
+    (setq completion-show-help t)
 
 
-  ;; key chord completion
+    ;; anotations in minibuffer
+    (use-package marginalia
+      :ensure t
+      :init
+      (marginalia-mode))
 
-  (use-package which-key
-    :ensure t
-    :init
-    (which-key-mode))
+
+    ;; key chord completion
+
+    (use-package which-key
+      :ensure t
+      :init
+      (which-key-mode))
 #+end_src
 
 #+RESULTS:
@@ -202,21 +214,21 @@
     (setq anki-editor-create-decks 't))
 #+end_src
 * Programming Specific
-** Github copilot
+** Github copilot (DISABLED)
 #+begin_src emacs-lisp
-    (use-package quelpa
-      :ensure t)
-    (use-package quelpa-use-package
-      :ensure t)
-    (use-package copilot
-      :quelpa (copilot :fetcher github
-                       :repo "copilot-emacs/copilot.el"
-                       :branch "main"
-                       :files ("*.el"))
-      :bind (:map copilot-mode-map
-                   ("C-c c a" . copilot-accept-completion)))
-    ;; you can utilize :map :hook and :config to customize copilot
-    ;; you can utilize :map :hook and :config to customize copilot
+  ;; (use-package quelpa
+  ;;   :ensure t)
+  ;; (use-package quelpa-use-package
+  ;;   :ensure t)
+  ;; (use-package copilot
+  ;;   :quelpa (copilot :fetcher github
+  ;;                    :repo "copilot-emacs/copilot.el"
+  ;;                    :branch "main"
+  ;;                    :files ("*.el"))
+  ;;   :bind (:map copilot-mode-map
+  ;;                ("C-c c a" . copilot-accept-completion)))
+  ;; ;; you can utilize :map :hook and :config to customize copilot
+  ;; ;; you can utilize :map :hook and :config to customize copilot
 #+end_src
 
 #+RESULTS:
@@ -247,7 +259,16 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 #+begin_src emacs-lisp
   (use-package zig-mode
     :ensure t)
+#+end_src
+
+** yaml
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
 #+end_src 
+
+#+RESULTS:
+
 * Action Alist
 ** display-buffer-alist
 *** Eshell 
