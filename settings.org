@@ -45,11 +45,40 @@
 
 #+RESULTS:
 : t
-
 * Startup
-#+begin_src emacs-lisp
-  (setq initial-buffer-choice "~/.emacs.d/start-page.org")
-#+end_src
+* EXWM
+#+BEGIN_SRC emacs-lisp
+  (require 'exwm)
+  (setq exwm-randr-workspace-monitor-plist '(1 "DisplayPort-0"))
+  (add-hook 'exwm-randr-screen-change-hook
+            (lambda ()
+              (start-process-shell-command
+               "xrandr" nil "xrandr --output eDP --auto --output DisplayPort-0 --primary --left-of eDP")))
+  (exwm-randr-mode 1)
+
+  (setq exwm-input-global-keys
+        `(([?\s-r] . exwm-reset) ;; s-r: Reset (to line-mode).
+          ([?\s-w] . exwm-workspace-switch) ;; s-w: Switch workspace.
+          ([?\s-d] . (lambda (cmd) ;; s-&: Launch application.
+                       (interactive (list (read-shell-command "$ ")))
+                       (start-process-shell-command cmd nil cmd)))
+          ;; s-N: Switch to certain workspace.
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))))
+  (exwm-systemtray-mode)
+  (exwm-enable)
+
+#+END_SRC
+
+
+
+#+RESULTS:
+: ((buffer-predicate . exwm-layout--other-buffer-predicate) (vertical-scroll-bars) (left-fringe . 1) (right-fringe . 1))
+
 * Key Maps
 ** Global
 #+BEGIN_SRC emacs-lisp
@@ -61,7 +90,7 @@
 #+END_SRC
 
 #+RESULTS:
-: eshell
+: 8
 
 * Theme
 #+BEGIN_SRC emacs-lisp
@@ -73,6 +102,8 @@
   (use-package vscode-dark-plus-theme
     :ensure t)
 #+END_SRC
+
+#+RESULTS:
 
 * Hooks
 
@@ -99,58 +130,59 @@
 
 * Completion
 #+begin_src emacs-lisp
-    ;;corfu
-  (fset #'jsonrpc--log-event #'ignore)
-  (use-package corfu
-      :ensure t
-      :custom
-      (corfu-auto t)
-      (corfu-auto-prefix 5)
-      (corfu-auto-delay 0.20)
-      (corfu-popupinfo-delay 0.2)
-      :bind (:map corfu-map
-                  ("C-c i" . corfu-info-documentation))
-      :hook ((prog-mode . corfu-mode)
-             (eshell-mode . corfu-mode))
-      :init
-      (corfu-popupinfo-mode))
+      ;;corfu
+    (fset #'jsonrpc--log-event #'ignore)
+    (use-package corfu
+        :ensure t
+        :custom
+        (corfu-auto t)
+        (corfu-auto-prefix 5)
+        (corfu-auto-delay 0.20)
+        (corfu-popupinfo-delay 0.2)
+        :bind (:map corfu-map
+                    ("C-c i" . corfu-info-documentation))
+        :hook ((prog-mode . corfu-mode)
+               (eshell-mode . corfu-mode))
+        :init
+        (corfu-popupinfo-mode))
 
-  (use-package corfu-terminal
-    :ensure t)
+    (use-package corfu-terminal
+      :ensure t)
 
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1))
-
-
-    ;;(use-package company
-     ;; :ensure t)
+    (unless (display-graphic-p)
+      (corfu-terminal-mode +1))
 
 
-    ;; orderless completion style 
-    (use-package orderless
-      :ensure t
-      :config
-      (setq completion-styles '(orderless)))
+      ;;(use-package company
+       ;; :ensure t)
 
 
-    ;; general completion settings 
-    (setq completion-cycle-threshold 3)
-    (setq completion-show-help t)
+      ;; orderless completion style 
+      (use-package orderless
+        :ensure t
+        :custom
+        (completion-styles '(orderless))
+        (completion-category-overrides '((file (styles basic partial-completion)))))
 
 
-    ;; anotations in minibuffer
-    (use-package marginalia
-      :ensure t
-      :init
-      (marginalia-mode))
+      ;; general completion settings 
+      (setq completion-cycle-threshold 3)
+      (setq completion-show-help t)
 
 
-    ;; key chord completion
+      ;; anotations in minibuffer
+      (use-package marginalia
+        :ensure t
+        :init
+        (marginalia-mode))
 
-    (use-package which-key
-      :ensure t
-      :init
-      (which-key-mode))
+
+      ;; key chord completion
+
+      (use-package which-key
+        :ensure t
+        :init
+        (which-key-mode))
 #+end_src
 
 #+RESULTS:
