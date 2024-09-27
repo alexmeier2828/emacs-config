@@ -25,15 +25,15 @@
     :config ;; tweak evil after loading it
     (evil-mode)
     (define-prefix-command 'my-leader-map)
-    (keymap-set evil-motion-state-map "SPC" 'my-leader-map)
-    (keymap-set evil-normal-state-map "SPC" 'my-leader-map)
-    ;; example how to map a command in normal mode (called 'normal state' in evil)
-    (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
+    ;(keymap-set evil-motion-state-map "SPC" 'my-leader-map)
+    ;(keymap-set evil-normal-state-map "SPC" 'my-leader-map)
     ;; insert mode
     ;; leader maps
-    (evil-define-key nil my-leader-map
-      "." 'execute-extended-command
-      "ff" 'find-file))
+    ;; (evil-define-key nil my-leader-map
+    ;;   "." 'execute-extended-command
+    ;;   "ff" 'find-file)
+    :hook (vterm-mode . turn-off-evil-mode)
+    )
 
   (use-package vterm
     :ensure t
@@ -41,19 +41,31 @@
     :config
     (global-set-key (kbd "C-c t") 'vterm))
 
+  (add-hook 'emacs-startup-hook 'eshell)
+
 #+END_SRC
 
 #+RESULTS:
 : t
-* Startup
-* EXWM
+i* Startup
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+#+END_SRC
+
+#+RESULTS:
+
 #+BEGIN_SRC emacs-lisp
   (require 'exwm)
-  (setq exwm-randr-workspace-monitor-plist '(1 "DisplayPort-0"))
+  (setq exwm-randr-workspace-monitor-plist '(1 "DisplayPort-3",
+                                               2 "DisplayPort-2",
+                                               3 "DisplayPort-1",
+                                               4 "DisplayPort-0",
+                                               5 "eDP"))
   (add-hook 'exwm-randr-screen-change-hook
             (lambda ()
               (start-process-shell-command
-               "xrandr" nil "xrandr --output eDP --auto --output DisplayPort-0 --primary --left-of eDP")))
+               "xrandr" nil "xrandr --output eDP --auto --output DisplayPort-3 --auto --primary --left-of eDP")))
   (exwm-randr-mode 1)
 
   (setq exwm-input-global-keys
@@ -72,7 +84,12 @@
   (exwm-systemtray-mode)
   (exwm-enable)
 
+  ;; Make buffer name more meaningful
+  (add-hook 'exwm-update-class-hook
+            (lambda ()
+            (exwm-workspace-rename-buffer exwm-class-name)))
 #+END_SRC
+i* EXWM
 
 
 
@@ -95,15 +112,16 @@
 * Theme
 #+BEGIN_SRC emacs-lisp
   (use-package gruvbox-theme
+    :ensure t)
+  (use-package kanagawa-themes
     :ensure t
     :config
-    (load-theme 'gruvbox t))
+    (load-theme 'kanagawa-wave t))
 
-  (use-package vscode-dark-plus-theme
-    :ensure t)
 #+END_SRC
 
 #+RESULTS:
+: t
 
 * Hooks
 
@@ -194,10 +212,10 @@
 #+end_src
 * Modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init
-    (doom-modeline-mode))
+  ;; (use-package doom-modeline
+  ;;   :ensure t
+  ;;   :init
+  ;;   (doom-modeline-mode))
 #+end_src
 * Org-mode
 #+begin_src emacs-lisp
@@ -306,14 +324,35 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 *** Eshell 
 #+begin_src emacs-lisp
   (add-to-list 'display-buffer-alist
-               '("\\*eshell\\*"
+               '("\\*e?shell\\*"
                  (display-buffer-reuse-window)
                  (display-buffer-below-selected)
                  (window-height . 12)
                  ))
 
+  (add-to-list 'display-buffer-alist
+               '("\\*vterm\\*"
+                 (display-buffer-reuse-window)
+                 (display-buffer-below-selected)
+                 ))
+  (add-to-list 'display-buffer-alist
+               '("\\*Org Src settings.org\\[ emacs-lisp \\]\\*"
+                 (display-buffer-reuse-window)
+                 (display-buffer-below-selected)
+                 ))
+
 #+end_src
 
 #+RESULTS:
-| \*eshell\* | (display-buffer-reuse-window)                  | (display-buffer-below-selected) | (window-height . 12)            |                      |
-| \*eshell\* | (setq switch-to-buffer-obey-display-actions t) | (display-buffer-reuse-window)   | (display-buffer-below-selected) | (window-height . 12) |
+| \*Org Src settings.org\[ emacs-lisp \]\* | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*Org Src settings.org[ emacs-lisp ]\*   | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*Org                                    | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*Org Src\.\+                            | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*Org Src.+                              | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*vterm\*                                | (display-buffer-reuse-window) | (display-buffer-below-selected) | (window-height . 12) |
+| \*e?shell\*                              | (display-buffer-reuse-window) | (display-buffer-below-selected) | (window-height . 12) |
+| \*v?e?shell\*                            | (display-buffer-reuse-window) | (display-buffer-below-selected) | (window-height . 12) |
+| \*Org Src                                | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| *Org Src*                                  | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*Org Src\*                              | (display-buffer-reuse-window) | (display-buffer-below-selected) |                      |
+| \*eshell\*                               | (display-buffer-reuse-window) | (display-buffer-below-selected) | (window-height . 12) |
