@@ -49,6 +49,7 @@
 * Startup
 #+begin_src emacs-lisp
   (setq initial-buffer-choice "~/.emacs.d/start-page.org")
+  (menu-bar-mode -1)
 #+end_src
 * Key Maps
 ** Global
@@ -66,13 +67,19 @@
 * Theme
 #+BEGIN_SRC emacs-lisp
   (use-package gruvbox-theme
-    :ensure t
-    :config
-    (load-theme 'gruvbox t))
+    :ensure t)
 
   (use-package vscode-dark-plus-theme
     :ensure t)
+
+  (use-package nord-theme
+    :ensure t)
+
+  (load-theme 'nord t)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 * Hooks
 
