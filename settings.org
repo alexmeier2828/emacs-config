@@ -57,8 +57,6 @@
   (global-set-key (kbd "C-c s") 'eshell)
   (global-set-key (kbd "C-x p f") 'project-find-file)
   (global-set-key (kbd "C-c r") 'project-find-regexp)
-  (keyboard-translate ?\C-h ?\C-x)
-  (keyboard-translate ?\C-x ?\C-h)
 #+END_SRC
 
 #+RESULTS:
@@ -76,6 +74,9 @@
     :ensure t)
 
   (load-theme 'nord t)
+
+  ;; Font
+  (set-frame-font "JetbrainsMonoNL Nerd FontMono 8" nil t)
 #+END_SRC
 
 #+RESULTS:
