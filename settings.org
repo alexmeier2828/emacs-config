@@ -198,7 +198,7 @@
                 org-startup-with-inline-images t)
     (setq org-capture-templates
           '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
-             "* TODO  %? %^G\n %i\n %a \n %T")
+             "* TODO  %? %^G\n %i\n %a")
             ("n" "Note" entry (file+datetree "~/org/notes.org")
              "* %?\nEntered on %U\n %i\n %a")))
     :config
