@@ -35,12 +35,6 @@
       "." 'execute-extended-command
       "ff" 'find-file))
 
-  (use-package vterm
-    :ensure t
-    :init
-    :config
-    (global-set-key (kbd "C-c t") 'vterm))
-
 #+END_SRC
 
 #+RESULTS:
@@ -49,8 +43,14 @@
 * Startup
 #+begin_src emacs-lisp
   (setq initial-buffer-choice "~/.emacs.d/start-page.org")
-  (menu-bar-mode -1)
+
+  ;; Start server if not started
+  (load "server")
+  (unless (server-running-p) (server-start))
 #+end_src
+
+#+RESULTS:
+
 * Key Maps
 ** Global
 #+BEGIN_SRC emacs-lisp
@@ -67,20 +67,16 @@
   (use-package gruvbox-theme
     :ensure t)
 
-  (use-package vscode-dark-plus-theme
-    :ensure t)
-
   (use-package nord-theme
     :ensure t)
 
-  (load-theme 'nord t)
+  (load-theme 'gruvbox t)
 
   ;; Font
   (set-frame-font "JetbrainsMonoNL Nerd FontMono 8" nil t)
 #+END_SRC
 
 #+RESULTS:
-: t
 
 * Hooks
 
@@ -106,7 +102,8 @@
   ;; Get rid of all the gui stuff
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
-
+  (menu-bar-mode -1)
+  
   ;; don't show the menubar, 
   (add-to-list 'default-frame-alist '(undecorated . t))
 
@@ -136,36 +133,30 @@
   (unless (display-graphic-p)
     (corfu-terminal-mode +1))
 
-
-    ;;(use-package company
-     ;; :ensure t)
-
-
-    ;; orderless completion style 
-    (use-package orderless
-      :ensure t
-      :config
-      (setq completion-styles '(orderless)))
+  ;; orderless completion style 
+  (use-package orderless
+    :ensure t
+    :config
+    (setq completion-styles '(orderless)))
 
 
-    ;; general completion settings 
-    (setq completion-cycle-threshold 3)
-    (setq completion-show-help t)
+  ;; general completion settings 
+  (setq completion-cycle-threshold 3)
+  (setq completion-show-help t)
 
 
-    ;; anotations in minibuffer
-    (use-package marginalia
-      :ensure t
-      :init
-      (marginalia-mode))
+  ;; anotations in minibuffer
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode))
 
 
-    ;; key chord completion
-
-    (use-package which-key
-      :ensure t
-      :init
-      (which-key-mode))
+  ;; key chord completion
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
 #+end_src
 
 #+RESULTS:
@@ -200,54 +191,17 @@
           '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
              "* TODO  %? %^G\n %i\n %a")
             ("n" "Note" entry (file+datetree "~/org/notes.org")
-             "* %?\nEntered on %U\n %i\n %a")))
+             "* %?\nEntered on %U\n %i")))
     :config
     (global-set-key (kbd "C-c c") 'org-capture)
     (global-set-key (kbd "C-c a") 'org-agenda)
     (add-hook 'org-mode-hook #'visual-line-mode))
 
-
-  ;; download images
-  (use-package org-download
-    :ensure t
-    :init
-    (setq-default org-download-image-dir "~/org/pictures")
-    :config
-    (add-hook 'dired-mode-hook #'org-download-enable))
 #+end_src
 
 #+RESULTS:
 : t
-
-** anki
-#+begin_src emacs-lisp 
-  (use-package anki-editor
-    :ensure  t
-    :after org-noter
-    :config
-    ; I like making decks
-    (setq anki-editor-create-decks 't))
-#+end_src
 * Programming Specific
-** Github copilot (DISABLED)
-#+begin_src emacs-lisp
-  ;; (use-package quelpa
-  ;;   :ensure t)
-  ;; (use-package quelpa-use-package
-  ;;   :ensure t)
-  ;; (use-package copilot
-  ;;   :quelpa (copilot :fetcher github
-  ;;                    :repo "copilot-emacs/copilot.el"
-  ;;                    :branch "main"
-  ;;                    :files ("*.el"))
-  ;;   :bind (:map copilot-mode-map
-  ;;                ("C-c c a" . copilot-accept-completion)))
-  ;; ;; you can utilize :map :hook and :config to customize copilot
-  ;; ;; you can utilize :map :hook and :config to customize copilot
-#+end_src
-
-#+RESULTS:
-
 ** LSP
 #+begin_src emacs-lisp
   (use-package eglot
