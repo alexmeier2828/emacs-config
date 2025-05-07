@@ -39,6 +39,17 @@
 
 #+RESULTS:
 : t
+* ESUP
+#+begin_src emacs-lisp
+  (use-package esup
+    :ensure t
+    :pin melpa
+    :config
+    (setq esup-depth 0))
+#+end_src
+
+#+RESULTS:
+: t
 
 * Startup
 #+begin_src emacs-lisp
@@ -70,13 +81,15 @@
   (use-package nord-theme
     :ensure t)
 
-  (load-theme 'gruvbox t)
+      (load-theme 'gruvbox t)
 
-  ;; Font
-  (set-frame-font "JetbrainsMonoNL Nerd FontMono 8" nil t)
+  ;; Setting font like this should be better for use with daemon
+  (setq default-frame-alist
+            '((font . "JetbrainsMonoNL Nerd FontMono 7")))
 #+END_SRC
 
 #+RESULTS:
+: ((font . JetbrainsMonoNL Nerd FontMono 7))
 
 * Hooks
 
@@ -163,9 +176,14 @@
 
 * magit
 #+begin_src emacs-lisp
-  (use-package magit
-    :ensure t)
+    (use-package magit
+          :ensure t
+          :commands magit
+      )
 #+end_src
+
+#+RESULTS:
+
 * Modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -189,9 +207,10 @@
                 org-startup-with-inline-images t)
     (setq org-capture-templates
           '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
-             "* TODO  %? %^G\n %i\n %a")
+             "* TODO  %? %^G\n")
             ("n" "Note" entry (file+datetree "~/org/notes.org")
-             "* %?\nEntered on %U\n %i")))
+             "* %?\nEntered on %U")))
+    (setq org-clock-sound t)
     :config
     (global-set-key (kbd "C-c c") 'org-capture)
     (global-set-key (kbd "C-c a") 'org-agenda)
@@ -254,3 +273,63 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 #+RESULTS:
 | \*eshell\* | (display-buffer-reuse-window)                  | (display-buffer-below-selected) | (window-height . 12)            |                      |
 | \*eshell\* | (setq switch-to-buffer-obey-display-actions t) | (display-buffer-reuse-window)   | (display-buffer-below-selected) | (window-height . 12) |
+
+* Email
+#+begin_src emacs-lisp
+  (use-package mu4e
+    :ensure nil
+    :load-path "/usr/share/emacs/site-lisp/mu4e/"
+    ;; :defer 20 ; Wait until 20 seconds after startup
+    :config
+
+    ;; This is set to 't' to avoid mail syncing issues when using mbsync
+    (setq mu4e-change-filenames-when-moving t)
+
+    ;; Refresh mail using isync every 10 minutes
+    (setq mu4e-update-interval (* 10 60))
+    (setq mu4e-get-mail-command "mbsync -a")
+    (setq mu4e-maildir "~/Mail")
+
+    (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+    (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+    (setq mu4e-refile-folder "/[Gmail]/All Mail")
+    (setq mu4e-trash-folder  "/[Gmail]/Trash"))
+
+  (setq smtpmail-stream-type 'starttls)
+  (setq user-mail-address "ameier42@gmail.com")
+  (setq user-full-name "Alex Meier")
+  (setq smtpmail-default-smtp-server "smtp.gmail.com")
+  (setq smtpmail-smtp-server "smtp.gmail.com")
+  (setq smtpmail-smtp-service 587)
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (auth-source-pass-enable)
+  (setq auth-sources '(password-store))
+  (setq auth-source-debug t)
+  (setq auth-source-do-cache nil)
+  (setq mail-user-agent 'mu4e-user-agent)
+  (setq mu4e-user-mail-address-list '("ameier42@gmail.com"))
+  (setq smtpmail-cred-user "ameier42@gmail.com")
+  (make-mu4e-context
+   :name "gmail"
+   :match-func
+   (lambda (msg)
+     (when msg
+       (string-prefix-p "~/Mail"(mu4e-message-field msg :maildir))))
+   :vars '((user-mail-address . "ameier42@gmail.com")
+           (user-full-name . "Alex Meier")
+  	 (smtpmail-cred-user . "ameier42@gmail.com")
+           (smtpmail-smtp-server . "smtp.gmail.com")
+           (smtpmail-stream-type . 'starttls)
+           (smtpmail-smtp-service . 587)
+           (mu4e-drafts-folder . "~/Mail/[Gmail]/Drafts")
+           (mu4e-sent-folder . "~/Mail/[Gmail]/Sent Mail")
+           (mu4e-refile-folder . "~/Mail/[Gmail]/All Mail")
+           (mu4e-trash-folder . "~/Mail/[Gmail]/Trash")))
+
+
+  ;; Configure the function to use for sending mail
+  (setq message-send-mail-function 'smtpmail-send-it)
+#+end_src
+
+#+RESULTS:
+: smtpmail-send-it
