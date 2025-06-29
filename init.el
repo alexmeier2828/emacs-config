@@ -8,8 +8,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(catppuccin))
  '(custom-safe-themes
-   '("98b4ef49c451350c28a8c20c35c4d2def5d0b8e5abbc962da498c423598a1cdd"
+   '("d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d"
+     "7d1c7ea4f3e73402f012b7011fc4be389597922fa67ad4ec417816971bca6f9d"
+     "c46651ab216eb31e699be1bd5e6df8229b08005b534194c1ea92519b09661d71"
+     "98b4ef49c451350c28a8c20c35c4d2def5d0b8e5abbc962da498c423598a1cdd"
      "a5270d86fac30303c5910be7403467662d7601b821af2ff0c4eb181153ebfc0a"
      "7403e5668f855dc751fe4360cb40f6b3dcd6b535d88db1c9027d2de6e178d6a0"
      "daa27dcbe26a280a9425ee90dc7458d85bd540482b93e9fa94d4f43327128077"
@@ -31,12 +35,14 @@
      ("n" "Note" entry (file+olp+datetree "~/org/notes.org")
       "* %?\12Entered on %U\12 %i\12 %a")) t)
  '(package-selected-packages
-   '(anki-editor copilot corfu doom-modeline editorconfig
-		 emacs-everywhere esup evil gruvbox-theme lua-mode
-		 magit marginalia mu4e nord-theme orderless
-		 org-download pass quelpa quelpa-use-package rustic
-		 straight strait vscode-dark-plus-theme vterm
-		 which-key zig-mode)))
+   '(abyss-theme anki-editor catppuccin-theme corfu-terminal
+		 doom-modeline dotnet emacs-everywhere esup evil
+		 exec-path-from-shell exwm gruvbox-theme habamax-theme
+		 haskell-mode kanagawa-themes lua-mode magit
+		 marginalia monokai-theme naga-theme nord-theme
+		 orderless org-download pass rustic theme-magic
+		 vscode-dark-plus-theme vterm which-key yaml-mode
+		 zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

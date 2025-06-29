@@ -13,27 +13,27 @@
   (require 'use-package)
 
   ;; load evil
-  (use-package evil
-    :ensure t ;; install the evil package if not installed
-    :init ;; tweak evil's configuration before loading it
-    (setq evil-search-module 'evil-search)
-    (setq evil-ex-complete-emacs-commands nil)
-    (setq evil-vsplit-window-right t)
-    (setq evil-split-window-below t)
-    (setq evil-shift-round nil)
-    (setq evil-want-C-u-scroll t)
-    :config ;; tweak evil after loading it
-    (evil-mode)
-    (define-prefix-command 'my-leader-map)
-    (keymap-set evil-motion-state-map "SPC" 'my-leader-map)
-    (keymap-set evil-normal-state-map "SPC" 'my-leader-map)
-    ;; example how to map a command in normal mode (called 'normal state' in evil)
-    (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
-    ;; insert mode
-    ;; leader maps
-    (evil-define-key nil my-leader-map
-      "." 'execute-extended-command
-      "ff" 'find-file))
+  ;; (use-package evil
+  ;;   :ensure t ;; install the evil package if not installed
+  ;;   :init ;; tweak evil's configuration before loading it
+  ;;   (setq evil-search-module 'evil-search)
+  ;;   (setq evil-ex-complete-emacs-commands nil)
+  ;;   (setq evil-vsplit-window-right t)
+  ;;   (setq evil-split-window-below t)
+  ;;   (setq evil-shift-round nil)
+  ;;   (setq evil-want-C-u-scroll t)
+  ;;   :config ;; tweak evil after loading it
+  ;;   (evil-mode)
+  ;;   (define-prefix-command 'my-leader-map)
+  ;;   (keymap-set evil-motion-state-map "SPC" 'my-leader-map)
+  ;;   (keymap-set evil-normal-state-map "SPC" 'my-leader-map)
+  ;;   ;; example how to map a command in normal mode (called 'normal state' in evil)
+  ;;   (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
+  ;;   ;; insert mode
+  ;;   ;; leader maps
+  ;;   (evil-define-key nil my-leader-map
+  ;;     "." 'execute-extended-command
+  ;;     "ff" 'find-file))
 
 #+END_SRC
 
@@ -60,6 +60,12 @@
   (unless (server-running-p) (server-start))
 #+end_src
 
+** Path
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t)
+#+end_src
+
 #+RESULTS:
 
 * Key Maps
@@ -68,41 +74,40 @@
   (global-set-key (kbd "C-c s") 'eshell)
   (global-set-key (kbd "C-x p f") 'project-find-file)
   (global-set-key (kbd "C-c r") 'project-find-regexp)
+  (global-set-key (kbd "C-v") 'scroll-half-page-down)
+  (global-set-key (kbd "M-v") 'scroll-half-page-up)
+
+  (defun scroll-half-page-down ()
+    "scroll up half a page"
+    (interactive)
+    (scroll-down (/ (window-body-height) 2)))
+
+  (defun scroll-half-page-up ()
+    "scroll up half a page"
+    (interactive)
+    (scroll-up (/ (window-body-height) 2)))
 #+END_SRC
 
 #+RESULTS:
-: eshell
+: scroll-half-page-up
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package gruvbox-theme
-    :ensure t)
-
-  (use-package nord-theme
-    :ensure t)
-
-      (load-theme 'gruvbox t)
-
   ;; Setting font like this should be better for use with daemon
   (setq default-frame-alist
             '((font . "JetbrainsMonoNL Nerd FontMono 7")))
+
+
+  (use-package catppuccin-theme
+    :ensure t)
 #+END_SRC
 
 #+RESULTS:
 : ((font . JetbrainsMonoNL Nerd FontMono 7))
 
-* Hooks
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda()
-              (electric-pair-mode t)
-              ))
-#+END_SRC
 * Emacs Everywhere
 #+BEGIN_SRC emacs-lisp
-  (use-package emacs-everywhere
-    :ensure t)
+  (autoload 'emacs-everywhere "emacs-everywhere" "emacs everywhere" t)
 #+END_SRC
 
 #+RESULTS:
@@ -116,11 +121,17 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (menu-bar-mode -1)
-  
+
   ;; don't show the menubar, 
   (add-to-list 'default-frame-alist '(undecorated . t))
 
+  ;; better commandline comepletion
+  (fido-mode 1)
+  (fido-vertical-mode 1)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 * Completion
 #+begin_src emacs-lisp
@@ -184,16 +195,10 @@
 
 #+RESULTS:
 
-* Modeline
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init
-    (doom-modeline-mode))
-#+end_src
 * Org-mode
 #+begin_src emacs-lisp
   (use-package org
+    :commands org-agenda
     :init
     (setq-default org-startup-indented t
                 org-startup-folded t 
@@ -221,41 +226,25 @@
 #+RESULTS:
 : t
 * Programming Specific
-** LSP
+** haskell
 #+begin_src emacs-lisp
-  (use-package eglot
-    :ensure t
-    :bind (:map eglot-mode-map
-                  ("C-c i" . eglot-find-implementation)))
+
+  (autoload 'haskell-mode "haskell-mode" "haskell mode." t)
+  (add-hook 'haskell-mode-hook
+  	  (lambda ()
+  	    (electric-pair-local-mode -1)))
+
 #+end_src
 
 #+RESULTS:
-: eglot-find-implementation
+| #[nil ((electric-pair-local-mode -1)) nil] | haskell-indentation-mode | interactive-haskell-mode |
 
-** Rust
-:LOGBOOK:
-CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
-:END:
+** elisp
 #+begin_src emacs-lisp
-  (use-package rustic
-    :ensure t)
+  (add-hook 'emacs-lisp-mode-hook (lambda ()
+  				  (electric-pair-local-mode -1) ;; electric pair mode is hella annoying for edditing lisp
+  				  (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)))
 #+end_src
-
-#+RESULTS:
-
-** Zig
-#+begin_src emacs-lisp
-  (use-package zig-mode
-    :ensure t)
-#+end_src
-
-** yaml
-#+begin_src emacs-lisp
-  (use-package yaml-mode
-    :ensure t)
-#+end_src 
-
-#+RESULTS:
 
 * Action Alist
 ** display-buffer-alist
@@ -278,8 +267,9 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
 #+begin_src emacs-lisp
   (use-package mu4e
     :ensure nil
+    :commands mu4e
     :load-path "/usr/share/emacs/site-lisp/mu4e/"
-    ;; :defer 20 ; Wait until 20 seconds after startup
+    ;; :defer 20 Wait until 20 seconds after startup
     :config
 
     ;; This is set to 't' to avoid mail syncing issues when using mbsync
@@ -293,42 +283,44 @@ CLOCK: [2024-04-26 Fri 10:53]--[2024-04-26 Fri 10:53] =>  0:00
     (setq mu4e-drafts-folder "/[Gmail]/Drafts")
     (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
     (setq mu4e-refile-folder "/[Gmail]/All Mail")
-    (setq mu4e-trash-folder  "/[Gmail]/Trash"))
+    (setq mu4e-trash-folder  "/[Gmail]/Trash")
+    (setq smtpmail-stream-type 'starttls)
+    (setq user-mail-address "ameier42@gmail.com")
+    (setq user-full-name "Alex Meier")
+    (setq smtpmail-default-smtp-server "smtp.gmail.com")
+    (setq smtpmail-smtp-server "smtp.gmail.com")
+    (setq smtpmail-smtp-service 587)
+    (setq message-send-mail-function 'smtpmail-send-it)
+    (auth-source-pass-enable)
+    (setq auth-sources '(password-store))
+    (setq auth-source-debug t)
+    (setq auth-source-do-cache nil)
+    (setq mail-user-agent 'mu4e-user-agent)
+    (setq mu4e-user-mail-address-list '("ameier42@gmail.com"))
+    (setq smtpmail-cred-user "ameier42@gmail.com")
+    (make-mu4e-context
+     :name "gmail"
+     :match-func
+     (lambda (msg)
+       (when msg
+         (string-prefix-p "~/Mail"(mu4e-message-field msg :maildir))))
+     :vars '((user-mail-address . "ameier42@gmail.com")
+             (user-full-name . "Alex Meier")
+  	   (smtpmail-cred-user . "ameier42@gmail.com")
+             (smtpmail-smtp-server . "smtp.gmail.com")
+             (smtpmail-stream-type . 'starttls)
+             (smtpmail-smtp-service . 587)
+             (mu4e-drafts-folder . "~/Mail/[Gmail]/Drafts")
+             (mu4e-sent-folder . "~/Mail/[Gmail]/Sent Mail")
+             (mu4e-refile-folder . "~/Mail/[Gmail]/All Mail")
+             (mu4e-trash-folder . "~/Mail/[Gmail]/Trash")))
 
-  (setq smtpmail-stream-type 'starttls)
-  (setq user-mail-address "ameier42@gmail.com")
-  (setq user-full-name "Alex Meier")
-  (setq smtpmail-default-smtp-server "smtp.gmail.com")
-  (setq smtpmail-smtp-server "smtp.gmail.com")
-  (setq smtpmail-smtp-service 587)
-  (setq message-send-mail-function 'smtpmail-send-it)
-  (auth-source-pass-enable)
-  (setq auth-sources '(password-store))
-  (setq auth-source-debug t)
-  (setq auth-source-do-cache nil)
-  (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-user-mail-address-list '("ameier42@gmail.com"))
-  (setq smtpmail-cred-user "ameier42@gmail.com")
-  (make-mu4e-context
-   :name "gmail"
-   :match-func
-   (lambda (msg)
-     (when msg
-       (string-prefix-p "~/Mail"(mu4e-message-field msg :maildir))))
-   :vars '((user-mail-address . "ameier42@gmail.com")
-           (user-full-name . "Alex Meier")
-  	 (smtpmail-cred-user . "ameier42@gmail.com")
-           (smtpmail-smtp-server . "smtp.gmail.com")
-           (smtpmail-stream-type . 'starttls)
-           (smtpmail-smtp-service . 587)
-           (mu4e-drafts-folder . "~/Mail/[Gmail]/Drafts")
-           (mu4e-sent-folder . "~/Mail/[Gmail]/Sent Mail")
-           (mu4e-refile-folder . "~/Mail/[Gmail]/All Mail")
-           (mu4e-trash-folder . "~/Mail/[Gmail]/Trash")))
+
+    ;; Configure the function to use for sending mail
+    (setq message-send-mail-function 'smtpmail-send-it))
 
 
-  ;; Configure the function to use for sending mail
-  (setq message-send-mail-function 'smtpmail-send-it)
+
 #+end_src
 
 #+RESULTS:
