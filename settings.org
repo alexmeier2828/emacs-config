@@ -76,6 +76,7 @@
   (global-set-key (kbd "C-c r") 'project-find-regexp)
   (global-set-key (kbd "C-v") 'scroll-half-page-down)
   (global-set-key (kbd "M-v") 'scroll-half-page-up)
+  (global-set-key (kbd "C-c C-.") #'hippie-expand)
 
   (defun scroll-half-page-down ()
     "scroll up half a page"
