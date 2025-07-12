@@ -21,3 +21,7 @@
 /type-break
 /tramp
 /network-security.data
+/init.elc
+/custom.el
+init.el
+/.mc-lists.el

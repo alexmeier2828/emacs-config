@@ -1,4 +1,8 @@
-* Packages
+#+PROPERTY: header-args :tangle init.el
+
+Run org-babel-tangle to bootstrap and commit config.
+
+* Packages and bootstrap 
 #+BEGIN_SRC emacs-lisp
   ;; load package manager, add the Melpa package registry
   (require 'package)
@@ -38,11 +42,12 @@
 #+END_SRC
 
 #+RESULTS:
-: t
+: use-package
 * ESUP
 #+begin_src emacs-lisp
   (use-package esup
     :ensure t
+    :defer t
     :pin melpa
     :config
     (setq esup-depth 0))
@@ -50,23 +55,6 @@
 
 #+RESULTS:
 : t
-
-* Startup
-#+begin_src emacs-lisp
-  (setq initial-buffer-choice "~/.emacs.d/start-page.org")
-
-  ;; Start server if not started
-  (load "server")
-  (unless (server-running-p) (server-start))
-#+end_src
-
-** Path
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t)
-#+end_src
-
-#+RESULTS:
 
 * Key Maps
 ** Global
@@ -76,6 +64,7 @@
   (global-set-key (kbd "C-v") 'scroll-half-page-down)
   (global-set-key (kbd "M-v") 'scroll-half-page-up)
   (global-set-key (kbd "C-c C-.") #'hippie-expand)
+  
 
   (defun scroll-half-page-down ()
     "scroll up half a page"
@@ -98,12 +87,14 @@
             '((font . "JetbrainsMonoNL Nerd FontMono 7")))
 
 
-  (use-package catppuccin-theme
-    :ensure t)
+  ; It turns out its a lot easier just to use customize to handle themes and just let the user (me I guess) install and apply whatever themes they want.  
+  (setq modus-vivendi-tinted-palette-overrides
+        '((fringe bg-main)
+  	(border-mode-line-active bg-main)))
 #+END_SRC
 
 #+RESULTS:
-: ((font . JetbrainsMonoNL Nerd FontMono 7))
+| #[nil ((load-theme 'catppuccin)) nil] | org-persist-load-all | x-wm-set-size-hint | tramp-register-archive-autoload-file-name-handler | magit-maybe-define-global-key-bindings |
 
 * Emacs Everywhere
 #+BEGIN_SRC emacs-lisp
@@ -127,16 +118,44 @@
 
   ;; fido does not work with embark
   ;; better commandline comepletion
-  (fido-mode 1)
-  (fido-vertical-mode 1)
+  (icomplete-mode 1)
+  (icomplete-vertical-mode)
   (keymap-unset icomplete-minibuffer-map "C-." 'remove)
+  (use-package icomplete
+  :bind (:map icomplete-minibuffer-map
+              ("C-n" . icomplete-forward-completions)
+              ("C-p" . icomplete-backward-completions)
+              ("RET" . icomplete-force-complete-and-exit))
+  :hook
+  (after-init . (lambda ()
+                  (fido-mode -1)
+                  (icomplete-mode 1)
+                  ;; (icomplete-vertical-mode 1)
+                  ))
+  :config
+  (setq tab-always-indent 'complete)  ;; Starts completion with TAB
+  (setq icomplete-delay-completions-threshold 0)
+  (setq icomplete-compute-delay 0)
+  (setq icomplete-show-matches-on-no-input t)
+  (setq icomplete-hide-common-prefix t)
+  (setq icomplete-prospects-height 10)
+  (setq icomplete-with-completion-tables t)
+  (setq icomplete-in-buffer t)
+  (setq icomplete-max-delay-chars 0)
+  (setq icompqlete-scroll t))
 
   ;; consult
   (use-package consult
     :ensure t
-    :bind (("C-c f g" . consult-ripgrep)
-  	 ("C-c f f" . consult-find)
-  	 ("C-x b" . consult-buffer)))
+    :bind
+    (("C-c f g" . consult-ripgrep)
+     ("C-c f f" . consult-find)
+     ("C-x b" . consult-buffer))
+    :init
+    (add-hook `eshell-mode-hook
+  	    (lambda ()
+  	      (define-key eshell-mode-map (kbd "C-c C-h") #'consult-history))))
+
 
 
   (use-package avy
@@ -153,8 +172,8 @@
 
 * Completion
 #+begin_src emacs-lisp
-    ;;corfu
-  (fset #'jsonrpc--log-event #'ignore)
+  ;;corfu
+
   (use-package corfu
       :ensure t
       :custom
@@ -165,9 +184,7 @@
       :bind (:map corfu-map
                   ("C-c i" . corfu-info-documentation))
       :hook ((prog-mode . corfu-mode)
-             (eshell-mode . corfu-mode))
-      :init
-      (corfu-popupinfo-mode))
+             (eshell-mode . corfu-mode)))
 
   (use-package corfu-terminal
     :ensure t)
@@ -216,7 +233,6 @@
 * Org-mode
 #+begin_src emacs-lisp
   (use-package org
-    :commands org-agenda
     :init
     (setq-default org-startup-indented t
                 org-startup-folded t 
@@ -234,6 +250,7 @@
             ("n" "Note" entry (file+datetree "~/org/notes.org")
              "* %?\nEntered on %U")))
     (setq org-clock-sound t)
+    (setq org-agenda-files '("~/org"))
     :config
     (global-set-key (kbd "C-c c") 'org-capture)
     (global-set-key (kbd "C-c a") 'org-agenda)
@@ -388,3 +405,39 @@
       :hook
       (embark-collect-mode . consult-preview-at-point-mode))
   #+end_src
+
+* eshell
+#+begin_src emacs-lisp
+  (defun my-term-handle-exit (&optional process-name msg)
+    (kill-buffer))
+
+  (advice-add 'term-handle-exit :after 'my-term-handle-exit)
+
+
+#+end_src
+
+#+RESULTS:
+* start
+#+begin_src emacs-lisp
+
+  ;; Start server if not started
+  ;; (load "server")
+  ;; (unless (server-running-p) (server-start))
+
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+end_src
+
+#+RESULTS:
+: t
+
+** Path
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :defer t)
+#+end_src
+
+#+RESULTS:
+
