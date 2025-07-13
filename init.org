@@ -86,15 +86,12 @@ Run org-babel-tangle to bootstrap and commit config.
   (setq default-frame-alist
             '((font . "JetbrainsMonoNL Nerd FontMono 7")))
 
-
-  ; It turns out its a lot easier just to use customize to handle themes and just let the user (me I guess) install and apply whatever themes they want.  
   (setq modus-vivendi-tinted-palette-overrides
         '((fringe bg-main)
-  	(border-mode-line-active bg-main)))
-#+END_SRC
+  	(border-mode-line-active bg-main)
+  	(border-mode-line-inactive bg-main)))
 
-#+RESULTS:
-| #[nil ((load-theme 'catppuccin)) nil] | org-persist-load-all | x-wm-set-size-hint | tramp-register-archive-autoload-file-name-handler | magit-maybe-define-global-key-bindings |
+#+END_SRC
 
 * Emacs Everywhere
 #+BEGIN_SRC emacs-lisp
@@ -102,6 +99,7 @@ Run org-babel-tangle to bootstrap and commit config.
 #+END_SRC
 
 #+RESULTS:
+: emacs-everywhere
 
 * General
 #+BEGIN_SRC emacs-lisp
