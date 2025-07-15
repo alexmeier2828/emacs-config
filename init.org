@@ -242,11 +242,15 @@ Run org-babel-tangle to bootstrap and commit config.
                 org-enforce-todo-dependencies t
                 org-agenda-todo-list-sublevels t
                 org-startup-with-inline-images t)
+
+    ;; Capture templates 
     (setq org-capture-templates
           '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
              "* TODO  %? %^G\n")
             ("n" "Note" entry (file+datetree "~/org/notes.org")
-             "* %?\nEntered on %U")))
+             "* %?\nEntered on %U")
+  	  ("j" "Journal Entry" entry (file+datetree "~/org/journal.org") "* %T %?")))
+    
     (setq org-clock-sound t)
     (setq org-agenda-files '("~/org"))
     :config
