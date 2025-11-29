@@ -1,3 +1,4 @@
+
 #+PROPERTY: header-args :tangle init.el
 
 Run org-babel-tangle to bootstrap and commit config.
@@ -91,6 +92,7 @@ Run org-babel-tangle to bootstrap and commit config.
   	(border-mode-line-active bg-main)
   	(border-mode-line-inactive bg-main)))
 
+  (load-theme 'catppuccin t)
 #+END_SRC
 
 * Emacs Everywhere
@@ -258,6 +260,9 @@ Run org-babel-tangle to bootstrap and commit config.
     (global-set-key (kbd "C-c a") 'org-agenda)
     (add-hook 'org-mode-hook #'visual-line-mode))
 
+  (setq org-refile-targets
+        '((nil :maxlevel . 3)
+          (org-agenda-files :maxlevel . 3)))
 #+end_src
 
 #+RESULTS:
